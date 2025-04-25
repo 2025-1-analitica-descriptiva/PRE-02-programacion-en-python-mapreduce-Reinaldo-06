@@ -56,9 +56,9 @@ def copy_raw_files_to_input_folder(n):
 def load_input(input_directory):
     """Funcion load_input"""
 
-    sequence = []
-    files = glob.glob(f"{input_directory}/*")
-    with fileinput.input(files=files) as f:
+    sequence = [] # Lista vacia para almacenar las tuplas
+    files = glob.glob(f"{input_directory}/*") # 
+    with fileinput.input(files=files) as f: # Abre los archivos en modo lectura
         for line in f:
             sequence.append((fileinput.filename(), line))
     return sequence
@@ -91,7 +91,8 @@ def line_preprocessing(sequence):
 def mapper(sequence):
     """Mapper"""
     return [
-        (word, 1) for _, value in sequence for word in value.split()
+        (word, 1) for _, value in sequence 
+                    for word in value.split()
     ] # Separa las palabras y asigna el valor 1 a cada una de ellas
 
 #
@@ -120,7 +121,9 @@ def shuffle_and_sort(sequence):
 def reducer(sequence):
     """Reducer"""
     sequence = [
-        (key, sum(1 for _ in group)) for key, group in groupby(sequence, key=lambda x: x[0])
+        (key,
+          sum(1 for _ in group)) 
+          for key, group in groupby(sequence, key=lambda x: x[0])
     ] # Agrupa los elementos por clave y suma los valores asociados a cada clave
     return sequence # Retorna la lista reducida
 
